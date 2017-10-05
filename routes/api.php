@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\User;
+use JWTAuth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,8 +15,8 @@ use App\User;
 
 Route::middleware('jwt.auth')->get('/user', function (Request $req) {
     return response()->json([
-        'Myself' => User::where('email', '=', $req->get('email'))->first()
-    ], 500);
+        'Myself' => JWTAuth::parseToken()->toUser()
+    ], 200);
 });
 
 Route::middleware('jwt.auth')->group(function () {
