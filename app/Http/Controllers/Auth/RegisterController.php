@@ -53,7 +53,7 @@ class RegisterController extends Controller
 
     public function singup (Request $req) {
 
-			if ($this->validator($req->all())) {
+			if (!$this->validator($req->all())->fails()) {
 				$user = $this->create($req->all());
 
 				if (!$user->save()) {
@@ -76,9 +76,9 @@ class RegisterController extends Controller
 			} 
 
 			return response()->json([
-				'Error' => 'Invalid Input',
-				'Msg' => $this->validator($req->all())
-			]);
+				'message'   => 'Validation Failed',
+				'errors'    => $this->validator($req->all())->errors()->all()
+			], 422);
 			
     }
 }
